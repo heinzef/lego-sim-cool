@@ -110,6 +110,7 @@ class Crane {
     }
 
     dropBallOnRamp(ramp) {
+        if(ramp.balls.length > 4) return;
         this.ball.isInCrane = false;
         ramp.addBall(this.ball);
         this.ball = null;
@@ -170,10 +171,6 @@ class StartingRamp {
     }
 
     addBall(ball) {
-        if(this.balls.length > 4) {
-            this.balls = [];            
-            return;
-        }
         this.balls = [...this.balls, ball];
         ball.ramp = this;
         ball.isOnRamp = true;
@@ -209,10 +206,6 @@ class Ramp {
     }
 
     addBall(ball) {
-        if(this.balls.length > 4) {
-            this.balls = [];            
-            return;
-        }
         this.balls = [...this.balls, ball];
         ball.ramp = this;
         ball.isOnRamp = true;
@@ -221,6 +214,9 @@ class Ramp {
 
     update(deltaTime) {
         this.balls.forEach(ball => ball.update(deltaTime));
+        if(this.balls.length > 4 && this.balls[this.balls.length - 1].velocity[1] === 0) {
+            this.balls = [];            
+        }
     }
 
     checkForCollision(ball) {
