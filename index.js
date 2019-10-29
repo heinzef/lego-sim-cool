@@ -61,6 +61,10 @@ class Crane {
     constructor(x, y, image, width = 64, height = 64) {
         this.x = x; this.y = y; this.image = image;
         this.width = width; this.height = height;
+
+        this.barX = x + 10; this.barY = y-30;
+        this.barWidth = 270; this.barHeight = 30;
+
         this.ball = null;
         this.speed = 8;
 
@@ -120,7 +124,7 @@ class Crane {
 
     update(deltaTime) {
         if(this.isMoving) {
-            const targetX = this.nextPosition === 'center' ? 108 : this.nextPosition === 'left' ? 20 : 220;
+            const targetX = this.nextPosition === 'center' ? 108 : this.nextPosition === 'left' ? 0 : 220;
             if(this.dir === 1 && this.x < targetX) {
                 this.x += this.speed;
             }
@@ -135,6 +139,13 @@ class Crane {
     }
 
     draw(ctx) {
+        ctx.fillStyle = 'black';
+        ctx.fillRect(this.barX, this.barY, this.barWidth, this.barHeight);
+
+        ctx.fillStyle = !this.ball ? 'grey' : this.ball.iO ? 'green' : 'red';
+        ctx.fillRect(this.barX + 20, this.barY-20, 20, 20);
+        ctx.fillRect(this.barWidth - 40, this.barY-20, 20, 20);
+
         if(this.ball) {
             ctx.drawImage(this.ball.image, this.x + 15, this.y + 50, this.ball.width, this.ball.height);
         }
