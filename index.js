@@ -4,13 +4,17 @@ class Machine {
         this.crane =  new Crane(0, 130, clawMachine);
         this.leftRamp = new Ramp(20, 200, 40, 250);
         this.rightRamp = new Ramp(220, 200, 40, 250);
+        this.iOAmount = 0;
+        this.nIOAmount = 0;
     }
 
     update(deltaTime) {
-        if(frameCount > 30) {
-            const isBasketball = Math.random() > 0.5;
-            this.startingRamp.addBall(new Ball(bId++, 0, 0, isBasketball ? basketball : soccer, isBasketball));
-            frameCount = 0;
+        if(frameCount > 10) {
+            if(this.startingRamp.balls.length < 4) {
+                const isBasketball = Math.random() > 0.5;
+                this.startingRamp.addBall(new Ball(bId++, 0, 0, isBasketball ? basketball : soccer, isBasketball));
+                frameCount = 0;
+            }
         }
         if(!this.crane.ball && this.startingRamp.isBallReady()) {
             this.crane.moveToCenter();
@@ -29,7 +33,11 @@ class Machine {
 
         if(this.crane.ball && !this.crane.isMoving && !this.crane.isCentered) {
             this.crane.dropBallOnRamp(this.crane.isLeft ? this.leftRamp : this.rightRamp);
+            if(this.crane.isLeft) this.iOAmount++;
+            else this.nIOAmount++;
+            //console.log(this.iOAmount, this.nIOAmount);
         }
+
 
         this.leftRamp.update(deltaTime);
         this.rightRamp.update(deltaTime);
@@ -54,7 +62,7 @@ class Crane {
         this.x = x; this.y = y; this.image = image;
         this.width = width; this.height = height;
         this.ball = null;
-        this.speed = 10;
+        this.speed = 20;
 
         this.isMoving = false;
         this.nextPosition = '';
