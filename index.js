@@ -9,7 +9,7 @@ class Machine {
     }
 
     update(deltaTime) {
-        if(frameCount > 10) {
+        if(frameCount > 20) {
             if(this.startingRamp.balls.length < 4) {
                 const isBasketball = Math.random() > 0.5;
                 this.startingRamp.addBall(new Ball(bId++, 0, 0, isBasketball ? basketball : soccer, isBasketball));
@@ -62,7 +62,7 @@ class Crane {
         this.x = x; this.y = y; this.image = image;
         this.width = width; this.height = height;
         this.ball = null;
-        this.speed = 20;
+        this.speed = 8;
 
         this.isMoving = false;
         this.nextPosition = '';
